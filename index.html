@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Genius AI Planner</title>
+<style>
+:root{
+  --bg:#f6f7fb;--surface:#fff;--surface2:#f1f2f8;--text:#171827;--muted:#74778a;
+  --primary:#6437e8;--primary2:#7b55f2;--border:#e8e8f0;--success:#24b47e;
+  --warning:#f2a93b;--danger:#e55365;--shadow:0 12px 35px rgba(35,24,75,.08);
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit} button{cursor:pointer;border:0}
+a{text-decoration:none;color:inherit}.hidden{display:none!important}
+.app{min-height:100vh}.auth-shell{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;background:linear-gradient(135deg,#20105e,#6437e8)}
+.brand-panel{padding:70px;display:flex;flex-direction:column;justify-content:center;color:white;position:relative;overflow:hidden}
+.brand-panel:before,.brand-panel:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.15);border-radius:50%}
+.brand-panel:before{width:520px;height:520px;right:-230px;top:-120px}.brand-panel:after{width:340px;height:340px;left:-160px;bottom:-130px}
+.brand-logo{font-size:28px;font-weight:800;letter-spacing:-.7px}.brand-panel h1{font-size:58px;line-height:1.02;max-width:650px;margin:26px 0 18px;letter-spacing:-2.5px}.brand-panel p{font-size:18px;line-height:1.7;max-width:570px;color:#ddd5ff}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px;max-width:620px}.feature-chip{padding:14px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);border-radius:16px;font-size:13px}
+.auth-card{background:#fff;display:flex;align-items:center;justify-content:center;padding:35px}.auth-box{width:min(440px,100%)}.auth-box h2{font-size:34px;margin:0 0 8px}.auth-box>p{color:var(--muted);margin:0 0 28px}.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field select{width:100%;border:1px solid var(--border);background:#fff;border-radius:12px;padding:13px 14px;outline:none}.field input:focus,.field select:focus{border-color:#8e73ee;box-shadow:0 0 0 4px rgba(100,55,232,.09)}
+.primary-btn{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:12px;padding:13px 18px;font-weight:750;box-shadow:0 8px 18px rgba(100,55,232,.22)}.secondary-btn{background:var(--surface2);color:var(--text);border-radius:12px;padding:12px 17px;font-weight:700}.text-btn{background:none;color:var(--primary);font-weight:700}.full{width:100%}.auth-actions{display:flex;justify-content:space-between;align-items:center;margin:8px 0 18px;font-size:13px}.divider{display:flex;align-items:center;gap:10px;color:#aaa;margin:20px 0}.divider:before,.divider:after{content:"";height:1px;background:var(--border);flex:1}.demo-note{margin-top:20px;background:#f7f4ff;padding:12px;border-radius:12px;color:#5e527e;font-size:12px}
+.topbar{height:72px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:30}.top-left{display:flex;align-items:center;gap:13px}.mobile-menu{display:none;background:none;font-size:24px}.mini-logo{font-weight:850;font-size:18px}.top-search{width:min(330px,35vw);background:var(--surface2);border:0;border-radius:12px;padding:10px 14px}.top-actions{display:flex;align-items:center;gap:10px}.icon-btn{width:40px;height:40px;border-radius:12px;background:var(--surface2);position:relative}.dot{position:absolute;width:7px;height:7px;background:var(--danger);border-radius:50%;top:8px;right:9px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#8f72f4,#5123d5);color:#fff;font-weight:800}
+.layout{display:flex;min-height:calc(100vh - 72px)}.sidebar{width:245px;background:#151326;color:#fff;padding:24px 15px;position:fixed;top:72px;bottom:0;z-index:25}.side-brand{padding:0 13px 25px;border-bottom:1px solid rgba(255,255,255,.09);margin-bottom:18px}.side-brand strong{font-size:20px}.side-brand span{display:block;color:#a9a5b9;font-size:11px;margin-top:3px}.nav-label{color:#77728d;font-size:10px;font-weight:800;text-transform:uppercase;padding:0 13px 9px;letter-spacing:1px}.nav-item{width:100%;display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;background:none;color:#aaa6b9;margin:3px 0;text-align:left;font-weight:650;font-size:13px}.nav-item:hover,.nav-item.active{background:#292240;color:#fff}.nav-item.active{box-shadow:inset 3px 0 var(--primary2)}.content{margin-left:245px;width:calc(100% - 245px);padding:28px;max-width:1600px}.page-title{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:24px}.page-title h1{font-size:29px;margin:0 0 6px;letter-spacing:-.8px}.page-title p{margin:0;color:var(--muted)}.actions{display:flex;gap:9px;flex-wrap:wrap}.grid{display:grid;gap:18px}.stats{grid-template-columns:repeat(5,1fr)}.card{background:var(--surface);border:1px solid var(--border);border-radius:17px;padding:19px;box-shadow:var(--shadow)}.stat-card{position:relative;overflow:hidden}.stat-card small{color:var(--muted);font-weight:700}.stat-value{font-size:28px;font-weight:850;margin-top:10px}.stat-icon{position:absolute;right:16px;top:16px;width:38px;height:38px;border-radius:12px;background:#f0ebff;color:var(--primary);display:grid;place-items:center}.section-grid{grid-template-columns:1.35fr .85fr;margin-top:18px}.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.card-head h3{margin:0;font-size:16px}.muted{color:var(--muted)}.timeline{display:flex;flex-direction:column;gap:9px}.time-row{display:grid;grid-template-columns:92px 1fr auto;align-items:center;gap:14px;padding:13px;border-radius:13px;background:#fafaff;border:1px solid #eeeeF7}.time{font-size:12px;color:var(--muted);font-weight:750}.subject{font-weight:800;font-size:13px}.room{font-size:11px;color:var(--muted);margin-top:3px}.status{font-size:10px;font-weight:800;padding:5px 8px;border-radius:999px}.completed{background:#e7f8f0;color:#13845c}.ongoing{background:#efe9ff;color:#5a31d6}.upcoming{background:#fff3df;color:#a56a13}.progress{height:8px;background:#ececf4;border-radius:99px;overflow:hidden}.progress>span{height:100%;display:block;background:linear-gradient(90deg,var(--primary),#9a7cff);border-radius:99px}.progress-line{display:flex;justify-content:space-between;font-size:12px;margin:8px 0 7px;font-weight:700}.mini-list{display:flex;flex-direction:column;gap:12px}.mini-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}.mini-item:last-child{border-bottom:0}.pill{padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800}.high{background:#ffe7eb;color:#b32e43}.medium{background:#fff1dc;color:#a56a13}.low{background:#e9f7f0;color:#16815b}.table-card{margin-top:18px;overflow:hidden}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}.toolbar input,.toolbar select{border:1px solid var(--border);background:#fff;border-radius:10px;padding:10px 12px}.data-table{width:100%;border-collapse:collapse}.data-table th,.data-table td{text-align:left;padding:13px 10px;border-bottom:1px solid var(--border);font-size:12px}.data-table th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px}.row-actions{display:flex;gap:5px}.tiny-btn{background:var(--surface2);padding:7px 9px;border-radius:8px;font-size:11px;font-weight:750}.tiny-btn.danger{color:var(--danger)}.empty{padding:35px;text-align:center;color:var(--muted)}.attendance-grid{grid-template-columns:repeat(5,1fr)}.attendance-card h4{margin:0 0 5px}.attendance-number{font-size:30px;font-weight:850}.warning{color:var(--danger)}.charts{grid-template-columns:1.2fr .8fr}.bar-chart{height:220px;display:flex;align-items:end;gap:15px;padding:15px 5px 0}.bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%;justify-content:end}.bar-fill{width:min(38px,70%);border-radius:9px 9px 3px 3px;background:linear-gradient(180deg,#8d6cf3,#6034df);min-height:8px}.bar label{font-size:10px;color:var(--muted)}.donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--primary) 0 76%,#ececf4 76%);display:grid;place-items:center;margin:10px auto}.donut:after{content:"76%";width:105px;height:105px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:25px;font-weight:850}.profile{display:grid;grid-template-columns:.7fr 1.3fr;gap:18px}.profile-hero{background:linear-gradient(135deg,#20105e,#6437e8);color:#fff}.profile-avatar{width:90px;height:90px;border-radius:50%;background:#fff;color:var(--primary);display:grid;place-items:center;font-size:30px;font-weight:850;margin-bottom:18px}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.detail{background:var(--surface2);padding:14px;border-radius:12px}.detail small{color:var(--muted);display:block;margin-bottom:4px}.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}.switch{width:42px;height:24px;border-radius:20px;background:#ccc;position:relative}.switch:after{content:"";position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.2s}.switch.on{background:var(--primary)}.switch.on:after{left:21px}.modal{position:fixed;inset:0;background:rgba(13,10,27,.48);display:none;align-items:center;justify-content:center;padding:20px;z-index:80}.modal.show{display:flex}.modal-box{width:min(540px,100%);background:#fff;border-radius:18px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.2)}.modal-head{display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0}.close{background:var(--surface2);width:35px;height:35px;border-radius:10px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.span2{grid-column:1/-1}.toast{position:fixed;right:22px;bottom:22px;background:#17132a;color:#fff;padding:13px 17px;border-radius:12px;box-shadow:0 15px 40px rgba(0,0,0,.22);z-index:100;display:none}.toast.show{display:block}.dark{--bg:#0f0e17;--surface:#191821;--surface2:#24232e;--text:#f4f3fa;--muted:#aaa7b7;--border:#2c2b38;--shadow:0 12px 35px rgba(0,0,0,.2)}.dark .field input,.dark .field select,.dark .toolbar input,.dark .toolbar select{background:#191821;color:var(--text)}.dark .time-row{background:#1c1b25}.dark .donut:after{background:#191821}.dark .modal-box{background:#191821}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.attendance-grid{grid-template-columns:repeat(3,1fr)}.section-grid,.charts,.profile{grid-template-columns:1fr}}
+@media(max-width:800px){.auth-shell{grid-template-columns:1fr}.brand-panel{display:none}.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.content{margin-left:0;width:100%;padding:20px}.mobile-menu{display:block}.topbar{padding:0 16px}.top-search{display:none}.stats{grid-template-columns:repeat(2,1fr)}.attendance-grid{grid-template-columns:repeat(2,1fr)}.data-table{min-width:760px}.table-card{overflow-x:auto}.form-grid{grid-template-columns:1fr}.span2{grid-column:auto}}
+@media(max-width:500px){.stats,.attendance-grid{grid-template-columns:1fr}.page-title{flex-direction:column}.page-title h1{font-size:24px}.card{padding:15px}.time-row{grid-template-columns:70px 1fr}.time-row .status{grid-column:2;justify-self:start}.auth-card{padding:25px}.auth-box h2{font-size:28px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="modal" id="modal"><div class="modal-box" id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const subjects=["Web Development","Database Management","Cyber Security","Software Engineering","Computer Networks"];
+const defaultData={
+ user:{name:"Tanaya Pawar",email:"tanaya@example.com",college:"Thakur Ramnarayan College of Arts & Commerce",course:"BSc Computer Science",semester:"V",studentId:"TYCS-2026-042"},
+ assignments:[
+  {id:1,title:"Database Management System Report",subject:"Database Management",due:"2026-10-05",priority:"High",status:"In Progress",progress:65},
+  {id:2,title:"Cyber Security Presentation",subject:"Cyber Security",due:"2026-10-08",priority:"Medium",status:"Pending",progress:0},
+  {id:3,title:"Web Development Mini Project",subject:"Web Development",due:"2026-10-10",priority:"High",status:"Pending",progress:20},
+  {id:4,title:"Software Engineering Case Study",subject:"Software Engineering",due:"2026-10-12",priority:"Low",status:"Completed",progress:100},
+  {id:5,title:"Computer Networks Practical File",subject:"Computer Networks",due:"2026-10-14",priority:"Medium",status:"Pending",progress:0},
+  {id:6,title:"Python Lab Record",subject:"Web Development",due:"2026-09-29",priority:"High",status:"Overdue",progress:35}
+ ],
+ attendance:[
+  {subject:"Web Development",present:23,absent:2,total:25},
+  {subject:"Database Management",present:17,absent:3,total:20},
+  {subject:"Cyber Security",present:18,absent:2,total:20},
+  {subject:"Software Engineering",present:18,absent:4,total:22},
+  {subject:"Computer Networks",present:22,absent:3,total:25}
+ ],
+ reminders:[
+  {id:1,title:"Complete DBMS Assignment",date:"2026-10-03",time:"06:00 PM",subject:"Database Management",priority:"High",done:false},
+  {id:2,title:"Prepare Cyber Security Presentation",date:"2026-10-05",time:"07:00 PM",subject:"Cyber Security",priority:"Medium",done:false},
+  {id:3,title:"Revise Software Engineering",date:"2026-10-04",time:"05:30 PM",subject:"Software Engineering",priority:"Low",done:false},
+  {id:4,title:"Submit Web Development Project",date:"2026-10-10",time:"04:00 PM",subject:"Web Development",priority:"High",done:false}
+ ],
+ prefs:{dark:false,email:true,assign:true,attendance:true}
+};
+let data=JSON.parse(localStorage.getItem("studyGeniusData")||"null")||defaultData;
+let loggedIn=localStorage.getItem("studyGeniusLoggedIn")==="1";
+let currentPage="Dashboard";
+
+function save(){localStorage.setItem("studyGeniusData",JSON.stringify(data))}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+function initials(){return data.user.name.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase()}
+function calcAttendance(){let p=data.attendance.reduce((a,x)=>a+x.present,0),t=data.attendance.reduce((a,x)=>a+x.total,0);return Math.round(p/t*100)}
+function navIcon(p){return {Dashboard:"⌂",Assignments:"✓",Attendance:"◔","Today's Timetable":"▦","My Progress":"◒",Reminders:"◷",Profile:"◎"}[p]||"•"}
+
+function renderAuth(mode="signin"){
+document.getElementById("app").innerHTML=`<div class="auth-shell">
+ <div class="brand-panel">
+  <div class="brand-logo">◈ Study Genius</div>
+  <h1>Plan smarter.<br>Study better.<br>Achieve more.</h1>
+  <p>Your all-in-one student productivity workspace for assignments, attendance, timetable, progress and reminders.</p>
+  <div class="feature-grid">
+   <div class="feature-chip">✦ Smart Study Planning</div><div class="feature-chip">✓ Assignment Tracking</div><div class="feature-chip">◔ Attendance Monitoring</div>
+   <div class="feature-chip">▦ Daily Timetable</div><div class="feature-chip">◒ Progress Tracking</div><div class="feature-chip">◷ Study Reminders</div>
+  </div>
+ </div>
+ <div class="auth-card"><div class="auth-box">
+  <h2>${mode==="signin"?"Welcome Back!":"Create Account"}</h2>
+  <p>${mode==="signin"?"Sign in to continue to your study dashboard.":"Create your student account and start organizing your semester."}</p>
+  ${mode==="signin"?`
+   <div class="field"><label>Email / Username</label><input id="loginEmail" value="tanaya@example.com" placeholder="Enter email"></div>
+   <div class="field"><label>Password</label><input id="loginPass" type="password" value="demo123" placeholder="Enter password"></div>
+   <div class="auth-actions"><label><input type="checkbox" checked> Remember me</label><button class="text-btn">Forgot Password?</button></div>
+   <button class="primary-btn full" onclick="doLogin()">Sign In</button>
+   <div class="divider">OR</div><button class="secondary-btn full" onclick="doLogin()">Continue with Google</button>
+   <div class="auth-actions" style="justify-content:center;margin-top:20px">Don't have an account? <button class="text-btn" onclick="renderAuth('signup')">Create Account</button></div>
+  `:`
+   <div class="form-grid">
+    <div class="field span2"><label>Full Name</label><input id="suName" value="${esc(data.user.name)}"></div>
+    <div class="field"><label>Email</label><input id="suEmail" value="${esc(data.user.email)}"></div>
+    <div class="field"><label>Password</label><input id="suPass" type="password" value="demo123"></div>
+    <div class="field span2"><label>Confirm Password</label><input id="suConfirm" type="password" value="demo123"></div>
+    <div class="field span2"><label>College / University</label><input id="suCollege" value="${esc(data.user.college)}"></div>
+    <div class="field"><label>Course</label><input id="suCourse" value="${esc(data.user.course)}"></div>
+    <div class="field"><label>Year / Semester</label><input id="suSem" value="${esc(data.user.semester)}"></div>
+   </div>
+   <button class="primary-btn full" onclick="doSignup()">Create Account</button>
+   <div class="auth-actions" style="justify-content:center;margin-top:20px">Already have an account? <button class="text-btn" onclick="renderAuth('signin')">Sign In</button></div>
+  `}
+ </div></div></div>`;
+}
+function doLogin(){loggedIn=true;localStorage.setItem("studyGeniusLoggedIn","1");renderApp();toast("Welcome back, "+data.user.name+"!")}
+function doSignup(){
+ const n=document.getElementById("suName").value.trim(),e=document.getElementById("suEmail").value.trim();
+ if(!n||!e){toast("Please enter your name and email");return}
+ data.user.name=n;data.user.email=e;data.user.college=document.getElementById("suCollege").value;data.user.course=document.getElementById("suCourse").value;data.user.semester=document.getElementById("suSem").value;save();doLogin()
+}
+function logout(){loggedIn=false;localStorage.removeItem("studyGeniusLoggedIn");renderAuth("signin")}
+function renderApp(){
+ document.body.classList.toggle("dark",!!data.prefs.dark);
+ document.getElementById("app").innerHTML=`<div class="app">
+  <header class="topbar"><div class="top-left"><button class="mobile-menu" onclick="toggleSidebar()">☰</button><div class="mini-logo">◈ Study Genius</div></div>
+   <div class="top-actions"><input class="top-search" id="globalSearch" placeholder="Search assignments, reminders..." oninput="globalSearch(this.value)"><button class="icon-btn" onclick="toast('You have 3 upcoming reminders')">♧<span class="dot"></span></button><div class="avatar">${initials()}</div></div>
+  </header>
+  <div class="layout"><aside class="sidebar" id="sidebar"><div class="side-brand"><strong>Study Genius</strong><span>AI Planner • Student Workspace</span></div>
+   <div class="nav-label">Workspace</div>${["Dashboard","Assignments","Attendance","Today's Timetable","My Progress","Reminders","Profile"].map(p=>`<button class="nav-item ${currentPage===p?"active":""}" onclick="go(${JSON.stringify(p).replace(/"/g,"&quot;")})"><span>${navIcon(p)}</span>${p}</button>`).join("")}
+   <div style="position:absolute;bottom:20px;left:15px;right:15px"><button class="nav-item" onclick="toggleTheme()"><span>${data.prefs.dark?"☀":"☾"}</span>${data.prefs.dark?"Light Mode":"Dark Mode"}</button><button class="nav-item" onclick="logout()"><span>↪</span>Logout</button></div>
+  </aside><main class="content" id="content"></main></div></div>`;
+ renderPage()
+}
+function toggleSidebar(){document.getElementById("sidebar").classList.toggle("open")}
+// Navigation fallback for sidebar items
+document.addEventListener("click",function(e){const b=e.target.closest(".nav-item");if(!b)return;const label=b.textContent.trim();const pages=["Dashboard","Assignments","Attendance","Today's Timetable","My Progress","Reminders","Profile"];if(pages.includes(label)){e.preventDefault();go(label)}});
+function go(p){currentPage=p;renderApp();if(window.innerWidth<800)document.getElementById("sidebar").classList.remove("open")}
+function toggleTheme(){data.prefs.dark=!data.prefs.dark;save();renderApp()}
+function pageHead(title,sub,buttons=""){return `<div class="page-title"><div><h1>${title}</h1><p>${sub}</p></div><div class="actions">${buttons}</div></div>`}
+function renderPage(){
+ const c=document.getElementById("content");
+ if(!c)return;
+ if(currentPage==="Dashboard") c.innerHTML=dashboard();
+ else if(currentPage==="Assignments") c.innerHTML=assignments();
+ else if(currentPage==="Attendance") c.innerHTML=attendance();
+ else if(currentPage==="Today's Timetable") c.innerHTML=timetable();
+ else if(currentPage==="My Progress") c.innerHTML=progress();
+ else if(currentPage==="Reminders") c.innerHTML=reminders();
+ else if(currentPage==="Profile") c.innerHTML=profile();
+ else { currentPage="Dashboard"; c.innerHTML=dashboard(); }
+ if(currentPage==="Assignments") renderAssignmentRows();
+}
+function dashboard(){
+const pending=data.assignments.filter(a=>a.status!=="Completed").length;
+return pageHead(`Good Morning, ${esc(data.user.name.split(" ")[0])}! 👋`,"Here's your study overview for today.")+
+`<div class="grid stats">
+ ${stat("Total Assignments",data.assignments.length,"✓")} ${stat("Pending Assignments",pending,"◷")} ${stat("Attendance",calcAttendance()+"%","◔")} ${stat("Today's Classes","5","▦")} ${stat("Overall Progress","76%","◒")}
+</div>
+<div class="grid section-grid"><div class="card"><div class="card-head"><h3>Today's Timetable</h3><button class="text-btn" onclick="go(&quot;Today's Timetable&quot;)">View full timetable →</button></div>${timeline(true)}</div>
+<div class="card"><div class="card-head"><h3>Upcoming Assignments</h3><button class="text-btn" onclick="go('Assignments')">View all</button></div><div class="mini-list">${data.assignments.filter(a=>a.status!=="Completed").slice(0,4).map(a=>`<div class="mini-item"><div><b>${esc(a.title)}</b><div class="muted" style="font-size:11px;margin-top:4px">${esc(a.subject)} • Due ${fmtDate(a.due)}</div></div><span class="pill ${a.priority.toLowerCase()}">${a.priority}</span></div>`).join("")}</div></div></div>
+<div class="grid section-grid"><div class="card"><div class="card-head"><h3>Subject Progress</h3><button class="text-btn" onclick="go('My Progress')">Details →</button></div>${subjectProgress()}</div>
+<div class="card"><div class="card-head"><h3>Reminders</h3><button class="text-btn" onclick="go('Reminders')">Manage</button></div><div class="mini-list">${data.reminders.filter(r=>!r.done).slice(0,3).map(r=>`<div class="mini-item"><div><b>${esc(r.title)}</b><div class="muted" style="font-size:11px;margin-top:4px">${fmtDate(r.date)} • ${r.time}</div></div><span class="pill ${r.priority.toLowerCase()}">${r.priority}</span></div>`).join("")}</div></div></div>`;
+}
+function stat(label,value,icon){return `<div class="card stat-card"><small>${label}</small><div class="stat-value">${value}</div><div class="stat-icon">${icon}</div></div>`}
+function timeline(short=false){
+const rows=[
+["09:00 AM","Web Development","Room 204","completed","Completed"],
+["10:00 AM","Database Management","Lab 2","ongoing","Ongoing"],
+["11:30 AM","Cyber Security","Room 301","upcoming","Upcoming"],
+["01:00 PM","Lunch Break","Cafeteria","upcoming","Break"],
+["02:00 PM","Software Engineering","Room 204","upcoming","Upcoming"],
+["03:30 PM","Computer Networks Practical","Lab 1","upcoming","Upcoming"]];
+return `<div class="timeline">${rows.slice(0,short?5:6).map(x=>`<div class="time-row"><div class="time">${x[0]}</div><div><div class="subject">${x[1]}</div><div class="room">${x[2]}</div></div><span class="status ${x[3]}">${x[4]}</span></div>`).join("")}</div>`
+}
+function subjectProgress(){return [["Web Development",82],["Database Management",75],["Cyber Security",90],["Software Engineering",70],["Computer Networks",78]].map(x=>`<div style="margin:13px 0"><div class="progress-line"><span>${x[0]}</span><span>${x[1]}%</span></div><div class="progress"><span style="width:${x[1]}%"></span></div></div>`).join("")}
+function fmtDate(d){if(!d)return "";return new Date(d+"T12:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}
+
+function assignments(){
+let rows=data.assignments;
+return pageHead("Assignments","Track every task from pending to completed.",`<button class="primary-btn" onclick="openAssignment()">＋ Add Assignment</button>`) +
+`<div class="card table-card"><div class="toolbar"><input id="assSearch" placeholder="Search assignments..." oninput="renderAssignmentRows()"><select id="assSubject" onchange="renderAssignmentRows()"><option value="">All Subjects</option>${subjects.map(s=>`<option>${s}</option>`).join("")}</select><select id="assStatus" onchange="renderAssignmentRows()"><option value="">All Status</option><option>Pending</option><option>In Progress</option><option>Completed</option><option>Overdue</option></select><select id="assSort" onchange="renderAssignmentRows()"><option value="date">Due Date</option><option value="priority">Priority</option></select></div><table class="data-table"><thead><tr><th>Assignment</th><th>Subject</th><th>Due Date</th><th>Priority</th><th>Status</th><th>Progress</th><th>Actions</th></tr></thead><tbody id="assignmentRows"></tbody></table></div>`;
+}
+function renderAssignmentRows(){
+const q=(document.getElementById("assSearch")?.value||"").toLowerCase(),s=document.getElementById("assSubject")?.value||"",st=document.getElementById("assStatus")?.value||"",sort=document.getElementById("assSort")?.value||"date";
+let arr=data.assignments.filter(a=>(a.title+a.subject).toLowerCase().includes(q)&&(!s||a.subject===s)&&(!st||a.status===st));
+if(sort==="date")arr.sort((a,b)=>a.due.localeCompare(b.due));else arr.sort((a,b)=>({High:0,Medium:1,Low:2}[a.priority]-({High:0,Medium:1,Low:2}[b.priority])));
+document.getElementById("assignmentRows").innerHTML=arr.map(a=>`<tr><td><b>${esc(a.title)}</b></td><td>${esc(a.subject)}</td><td>${fmtDate(a.due)}</td><td><span class="pill ${a.priority.toLowerCase()}">${a.priority}</span></td><td><span class="pill ${a.status==="Completed"?"low":a.status==="Overdue"?"high":"medium"}">${a.status}</span></td><td><div class="progress" style="width:100px"><span style="width:${a.progress}%"></span></div><small>${a.progress}%</small></td><td><div class="row-actions"><button class="tiny-btn" onclick="openAssignment(${a.id})">Edit</button>${a.status!=="Completed"?`<button class="tiny-btn" onclick="completeAssignment(${a.id})">✓ Done</button>`:""}<button class="tiny-btn danger" onclick="deleteAssignment(${a.id})">Delete</button></div></td></tr>`).join("")||`<tr><td colspan="7" class="empty">No assignments match your filters.</td></tr>`;
+}
+function openAssignment(id=null){
+const a=id?data.assignments.find(x=>x.id===id):{title:"",subject:subjects[0],due:"2026-10-15",priority:"Medium",status:"Pending",progress:0};
+document.getElementById("modalBox").innerHTML=`<div class="modal-head"><h3>${id?"Edit":"Add"} Assignment</h3><button class="close" onclick="closeModal()">×</button></div><div class="form-grid">
+<div class="field span2"><label>Assignment Title</label><input id="aTitle" value="${esc(a.title)}"></div><div class="field"><label>Subject</label><select id="aSubject">${subjects.map(s=>`<option ${s===a.subject?"selected":""}>${s}</option>`).join("")}</select></div><div class="field"><label>Due Date</label><input id="aDue" type="date" value="${a.due}"></div><div class="field"><label>Priority</label><select id="aPriority">${["High","Medium","Low"].map(x=>`<option ${x===a.priority?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Status</label><select id="aStatus">${["Pending","In Progress","Completed","Overdue"].map(x=>`<option ${x===a.status?"selected":""}>${x}</option>`).join("")}</select></div><div class="field span2"><label>Progress: <span id="aProgLabel">${a.progress}</span>%</label><input id="aProgress" type="range" min="0" max="100" value="${a.progress}" oninput="aProgLabel.textContent=this.value"></div></div><button class="primary-btn full" onclick="saveAssignment(${id||0})">Save Assignment</button>`;
+document.getElementById("modal").classList.add("show");
+}
+function saveAssignment(id){
+const item={id:id||Date.now(),title:document.getElementById("aTitle").value.trim(),subject:document.getElementById("aSubject").value,due:document.getElementById("aDue").value,priority:document.getElementById("aPriority").value,status:document.getElementById("aStatus").value,progress:+document.getElementById("aProgress").value};
+if(!item.title){toast("Enter an assignment title");return} if(item.status==="Completed")item.progress=100;
+if(id)data.assignments=data.assignments.map(a=>a.id===id?item:a);else data.assignments.push(item);save();closeModal();renderPage();if(currentPage==="Assignments")renderAssignmentRows();toast("Assignment saved");
+}
+function completeAssignment(id){data.assignments=data.assignments.map(a=>a.id===id?{...a,status:"Completed",progress:100}:a);save();renderPage();if(currentPage==="Assignments")renderAssignmentRows();toast("Assignment marked completed")}
+function deleteAssignment(id){if(confirm("Delete this assignment?")){data.assignments=data.assignments.filter(a=>a.id!==id);save();renderPage();if(currentPage==="Assignments")renderAssignmentRows();toast("Assignment deleted")}}
+
+function attendance(){
+const total=data.attendance.reduce((a,x)=>a+x.total,0),present=data.attendance.reduce((a,x)=>a+x.present,0),absent=total-present;
+return pageHead("Attendance","Monitor your attendance and stay above the required threshold.")+
+`<div class="grid stats" style="grid-template-columns:repeat(4,1fr)">${stat("Overall Attendance",Math.round(present/total*100)+"%","◔")}${stat("Total Classes",total,"▦")}${stat("Present",present,"✓")}${stat("Absent",absent,"×")}</div>
+<div class="card table-card"><div class="card-head"><h3>Subject-wise Attendance</h3><span class="muted">Warning shown below 75%</span></div><div class="grid attendance-grid">${data.attendance.map(a=>{let pct=Math.round(a.present/a.total*100);return `<div class="card attendance-card"><h4>${a.subject}</h4><div class="attendance-number ${pct<75?"warning":""}">${pct}%</div><div class="muted" style="font-size:11px">${a.present} present • ${a.absent} absent • ${a.total} total</div><div class="progress" style="margin-top:13px"><span style="width:${pct}%;background:${pct<75?"var(--danger)":"linear-gradient(90deg,var(--success),#64d9a8)"}"></span></div>${pct<75?`<div class="warning" style="font-size:11px;font-weight:800;margin-top:9px">⚠ Attendance below 75%</div>`:""}</div>`}).join("")}</div></div>`;
+}
+function timetable(){
+ const d=new Date();
+ const dayName=d.toLocaleDateString("en-IN",{weekday:"long"});
+ const dateText=d.toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});
+ return pageHead("Today's Timetable",`${dayName}, ${dateText}`,
+ `<button class="secondary-btn" onclick="toast('Previous day')">← Previous</button>
+  <button class="primary-btn" onclick="toast('Today selected')">Today</button>
+  <button class="secondary-btn" onclick="toast('Next day')">Next →</button>`) +
+ `<div class="card">
+   <div class="card-head"><div><h3 style="margin:0">Today's Classes</h3><div class="muted" style="font-size:12px;margin-top:4px">Complete schedule for today</div></div></div>
+   ${timeline(false)}
+ </div>`;
+}
+function progress(){
+ const totalAssignments=data.assignments.length;
+ const completedAssignments=data.assignments.filter(a=>a.status==="Completed" || a.progress>=100).length;
+ const attendance=calcAttendance();
+ const overall=76;
+ const studyGoal=76;
+ const weekly=[2.5,3,4,2,3.5,4,2];
+ const days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+ return pageHead("My Progress","Track your study performance, completion and subject progress.",`<button class="secondary-btn" onclick="toast('Progress refreshed')">↻ Refresh</button>`)+
+ `<div class="grid stats" style="grid-template-columns:repeat(4,1fr)">
+   ${stat("Overall Progress",overall+"%","◒")}
+   ${stat("Assignments",completedAssignments+" / "+totalAssignments,"✓")}
+   ${stat("Attendance",attendance+"%","◔")}
+   ${stat("Study Streak","20 days","🔥")}
+ </div>
+ <div class="grid section-grid">
+   <div class="card">
+    <div class="card-head"><div><h3>Weekly Study Hours</h3><div class="muted" style="font-size:12px">Hours studied during the last 7 days</div></div><b>21 hrs</b></div>
+    <div style="height:220px;display:flex;align-items:flex-end;gap:14px;padding:20px 8px 8px">
+      ${weekly.map((v,i)=>`<div style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800">${v}</span><div style="width:100%;max-width:44px;height:${Math.max(18,v/4*150)}px;border-radius:9px 9px 4px 4px;background:linear-gradient(180deg,var(--primary),var(--primary2));"></div><small class="muted">${days[i]}</small></div>`).join("")}
+    </div>
+   </div>
+   <div class="card">
+    <div class="card-head"><div><h3>Overall Goal</h3><div class="muted" style="font-size:12px">Current semester study target</div></div></div>
+    <div style="display:flex;justify-content:center;align-items:center;padding:20px 0"><div style="width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--primary) ${studyGoal}%,var(--surface2) 0);display:grid;place-items:center"><div style="width:112px;height:112px;border-radius:50%;background:var(--card);display:grid;place-items:center"><strong style="font-size:28px">${studyGoal}%</strong></div></div></div>
+    <div class="muted" style="text-align:center">Keep building your study consistency.</div>
+   </div>
+ </div>
+ <div class="grid section-grid">
+   <div class="card"><div class="card-head"><div><h3>Subject Progress</h3><div class="muted" style="font-size:12px">Current progress by subject</div></div></div>${subjectProgress()}</div>
+   <div class="card"><div class="card-head"><div><h3>Assignment Completion</h3><div class="muted" style="font-size:12px">Completed assignments</div></div><strong>${completedAssignments}/${totalAssignments}</strong></div><div class="progress" style="height:12px;margin:22px 0"><span style="width:${totalAssignments?Math.round(completedAssignments/totalAssignments*100):0}%"></span></div><div class="muted">${totalAssignments?Math.round(completedAssignments/totalAssignments*100):0}% of your assignments are completed.</div></div>
+ </div>`;
+}
+function reminders(){
+return pageHead("Reminders","Never miss a deadline, revision session or submission.",`<button class="primary-btn" onclick="openReminder()">＋ Add Reminder</button>`)+
+`<div class="card table-card"><div class="toolbar"><button class="secondary-btn" onclick="filterRem('today')">Today</button><button class="secondary-btn" onclick="filterRem('upcoming')">Upcoming</button><button class="secondary-btn" onclick="filterRem('completed')">Completed</button><button class="secondary-btn" onclick="filterRem('all')">All</button></div><div id="reminderList">${reminderList("all")}</div></div>`;
+}
+function reminderList(filter){
+let arr=data.reminders;if(filter==="completed")arr=arr.filter(r=>r.done);if(filter==="upcoming")arr=arr.filter(r=>!r.done);if(filter==="today")arr=arr.filter(r=>r.date==="2026-10-02");
+return arr.length?`<div class="mini-list">${arr.map(r=>`<div class="mini-item"><div style="display:flex;gap:12px;align-items:flex-start"><button class="tiny-btn" onclick="toggleReminder(${r.id})">${r.done?"✓":"○"}</button><div><b style="${r.done?"text-decoration:line-through;opacity:.55":""}">${esc(r.title)}</b><div class="muted" style="font-size:11px;margin-top:5px">${fmtDate(r.date)} • ${r.time} • ${esc(r.subject)}</div></div></div><div class="row-actions"><span class="pill ${r.priority.toLowerCase()}">${r.priority}</span><button class="tiny-btn" onclick="openReminder(${r.id})">Edit</button><button class="tiny-btn danger" onclick="deleteReminder(${r.id})">Delete</button></div></div>`).join("")}</div>`:`<div class="empty">No reminders in this category.</div>`;
+}
+function filterRem(f){document.getElementById("reminderList").innerHTML=reminderList(f)}
+function openReminder(id=null){
+const r=id?data.reminders.find(x=>x.id===id):{title:"",date:"2026-10-03",time:"06:00 PM",subject:subjects[0],priority:"Medium",done:false};
+document.getElementById("modalBox").innerHTML=`<div class="modal-head"><h3>${id?"Edit":"Add"} Reminder</h3><button class="close" onclick="closeModal()">×</button></div><div class="form-grid"><div class="field span2"><label>Reminder Title</label><input id="rTitle" value="${esc(r.title)}"></div><div class="field"><label>Date</label><input id="rDate" type="date" value="${r.date}"></div><div class="field"><label>Time</label><input id="rTime" value="${esc(r.time)}"></div><div class="field"><label>Subject</label><select id="rSubject">${subjects.map(s=>`<option ${s===r.subject?"selected":""}>${s}</option>`).join("")}</select></div><div class="field"><label>Priority</label><select id="rPriority">${["High","Medium","Low"].map(x=>`<option ${x===r.priority?"selected":""}>${x}</option>`).join("")}</select></div></div><button class="primary-btn full" onclick="saveReminder(${id||0})">Save Reminder</button>`;
+document.getElementById("modal").classList.add("show");
+}
+function saveReminder(id){
+const r={id:id||Date.now(),title:document.getElementById("rTitle").value.trim(),date:document.getElementById("rDate").value,time:document.getElementById("rTime").value,subject:document.getElementById("rSubject").value,priority:document.getElementById("rPriority").value,done:id?data.reminders.find(x=>x.id===id).done:false};
+if(!r.title){toast("Enter a reminder title");return}if(id)data.reminders=data.reminders.map(x=>x.id===id?r:x);else data.reminders.push(r);save();closeModal();renderPage();toast("Reminder saved");
+}
+function toggleReminder(id){data.reminders=data.reminders.map(r=>r.id===id?{...r,done:!r.done}:r);save();renderPage();toast("Reminder updated")}
+function deleteReminder(id){if(confirm("Delete this reminder?")){data.reminders=data.reminders.filter(r=>r.id!==id);save();renderPage();toast("Reminder deleted")}}
+
+function profile(){
+return pageHead("My Profile","Manage your personal information and productivity preferences.",`<button class="primary-btn" onclick="openProfile()">Edit Profile</button>`)+
+`<div class="profile"><div class="card profile-hero"><div class="profile-avatar">${initials()}</div><h2 style="margin:0 0 5px">${esc(data.user.name)}</h2><div style="opacity:.75">${esc(data.user.course)} • Semester ${esc(data.user.semester)}</div><div style="margin-top:25px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><div><b>20</b><small style="display:block;opacity:.7">Day Streak</small></div><div><b>150</b><small style="display:block;opacity:.7">Hours Studied</small></div><div><b>${data.assignments.length}</b><small style="display:block;opacity:.7">Assignments</small></div></div></div>
+<div class="card"><div class="card-head"><h3>Student Information</h3></div><div class="detail-grid">${detail("Full Name",data.user.name)}${detail("Email",data.user.email)}${detail("College",data.user.college)}${detail("Course",data.user.course)}${detail("Semester",data.user.semester)}${detail("Student ID",data.user.studentId)}</div></div></div>
+<div class="card" style="margin-top:18px"><div class="card-head"><h3>Preferences</h3></div>${pref("Dark Mode","Switch between light and dark appearance.","dark")}${pref("Email Notifications","Receive important study notifications.","email")}${pref("Assignment Reminders","Get reminders before assignment deadlines.","assign")}${pref("Attendance Alerts","Get notified when attendance needs attention.","attendance")}</div>`;
+}
+function detail(k,v){return `<div class="detail"><small>${k}</small><b>${esc(v)}</b></div>`}
+function pref(title,desc,key){return `<div class="toggle-row"><div><b>${title}</b><div class="muted" style="font-size:11px;margin-top:3px">${desc}</div></div><button class="switch ${data.prefs[key]?"on":""}" onclick="togglePref('${key}')"></button></div>`}
+function togglePref(k){data.prefs[k]=!data.prefs[k];save();renderPage();document.body.classList.toggle("dark",data.prefs.dark)}
+function openProfile(){
+document.getElementById("modalBox").innerHTML=`<div class="modal-head"><h3>Edit Profile</h3><button class="close" onclick="closeModal()">×</button></div><div class="form-grid"><div class="field span2"><label>Full Name</label><input id="pName" value="${esc(data.user.name)}"></div><div class="field span2"><label>Email</label><input id="pEmail" value="${esc(data.user.email)}"></div><div class="field span2"><label>College / University</label><input id="pCollege" value="${esc(data.user.college)}"></div><div class="field"><label>Course</label><input id="pCourse" value="${esc(data.user.course)}"></div><div class="field"><label>Semester</label><input id="pSem" value="${esc(data.user.semester)}"></div><div class="field span2"><label>Student ID</label><input id="pId" value="${esc(data.user.studentId)}"></div></div><button class="primary-btn full" onclick="saveProfile()">Save Changes</button>`;
+document.getElementById("modal").classList.add("show");
+}
+function saveProfile(){data.user.name=document.getElementById("pName").value.trim()||data.user.name;data.user.email=document.getElementById("pEmail").value.trim();data.user.college=document.getElementById("pCollege").value.trim();data.user.course=document.getElementById("pCourse").value.trim();data.user.semester=document.getElementById("pSem").value.trim();data.user.studentId=document.getElementById("pId").value.trim();save();closeModal();renderApp();toast("Profile updated")}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()})
+function globalSearch(q){if(!q)return;if(q.length>2){const found=data.assignments.find(a=>(a.title+a.subject).toLowerCase().includes(q.toLowerCase()));if(found){currentPage="Assignments";renderApp();setTimeout(()=>{document.getElementById("assSearch").value=q;renderAssignmentRows()},0)}}}
+
+if(loggedIn)renderApp();else renderAuth("signin");
+</script>
+</body>
+</html>
